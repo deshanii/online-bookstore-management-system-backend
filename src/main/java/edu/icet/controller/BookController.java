@@ -1,6 +1,7 @@
 package edu.icet.controller;
 
 import edu.icet.dto.Book;
+import edu.icet.entity.BookEntity;
 import edu.icet.repository.BookRepository;
 import edu.icet.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -13,16 +14,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/book")
 @RequiredArgsConstructor
-
-
+@CrossOrigin
 public class BookController {
-    @Autowired
-    final BookService service;
-    final BookRepository repository;
+    private final BookService service;
+    private final BookRepository repository;
 
-    @GetMapping("/get-book")
-     public List<Book> getBook(){
-        return service.getAll();
+    @GetMapping("/all")
+     public List<BookEntity> getBook(){
+        System.out.println("Inside");
+        return repository.findAll();
     }
 
     @PostMapping("/add-book")

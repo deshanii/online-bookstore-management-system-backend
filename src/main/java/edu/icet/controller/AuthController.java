@@ -2,6 +2,7 @@ package edu.icet.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import edu.icet.dto.AuthenticationRequest;
+import edu.icet.dto.AuthenticationResponse;
 import edu.icet.dto.SignupRequest;
 import edu.icet.dto.UserDto;
 import edu.icet.entity.User;
@@ -45,44 +46,34 @@ public class AuthController {
     public static final String  HEADER_SIRING = "Authorization";
 
     private final AuthService authService;
+    private final AuthenticationManager authManager;
 
 
 
-    @PostMapping("/authenticate")
-    public void createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) throws IOException, JSONException {
-         try{
-             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-                     authenticationRequest.getPassword()));
-         }catch (BadCredentialsException e){
-             throw new BadCredentialsException("Incorrect username or password.");
-         }
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
+        Authentication authentication =
+                authManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                authenticationRequest.getEmail(),
+                                authenticationRequest.getPassword()
+                        )
+                );
 
-         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-         Optional<User> optionalUser = userRepository.findFirstByEmail(userDetails.getUsername());
-         final String jwt = jwtUtil.generateToken(userDetails.getUsername());
-
-         if(optionalUser.isPresent()){
-             response.getWriter().write(new JSONObject()
-                     .put("userId", optionalUser.get().getId())
-                     .put("role", optionalUser.get().getRole())
-                     .toString()
-             );
-
-
-             response.addHeader(HEADER_SIRING , TOKEN_PREFIX + jwt);
-         }
+        if (authentication.isAuthenticated()) {
+            String token = jwtUtil.generateToken(authenticationRequest.getEmail());
+            User  user = authService.findUserByEmail(authenticationRequest.getEmail());
+            return new ResponseEntity<>(new AuthenticationResponse(token, user), HttpStatus.OK);
+        }
+        throw new RuntimeException("Invalid access");
 
     }
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> signupUser(@RequestBody SignupRequest signupRequest){
-        if(authService.hasUserWithEmail(signupRequest.getEmail())){
-            return new ResponseEntity<>("User already exixts" , HttpStatus.NOT_ACCEPTABLE);
-        }
+    @PostMapping("/signup")
+    public ResponseEntity<UserDto> signupUser(@RequestBody UserDto userDto){
+        UserDto user = authService.createUser(userDto);
 
-        UserDto userDto = authService.createUser(signupRequest);
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
-
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
 }

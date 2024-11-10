@@ -21,7 +21,6 @@ public class BookEntity {
     private double price;
     private String author;
     private String description;
-    private String imageUrl;
 
 //    private int stock;
 //

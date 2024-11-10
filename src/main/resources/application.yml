@@ -7,9 +7,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
     show-sql: true
-
-app:
-  client:
-    url: http://localhost:4200/login

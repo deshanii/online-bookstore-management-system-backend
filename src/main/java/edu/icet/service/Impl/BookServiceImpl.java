@@ -27,6 +27,7 @@ public class BookServiceImpl implements BookService {
        for(BookEntity bookEntity : bookEntities){
            bookList.add(mapper.map(bookEntity, Book.class));
        }
+        System.out.println(bookList);
        return bookList;
     }
 

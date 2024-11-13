@@ -1,12 +1,12 @@
-package edu.icet.dto;
-
-import lombok.Data;
-
-@Data
-public class SignupRequest {
-
-    private String email;
-    private String password;
-    private String name;
-
-}
+//package edu.icet.dto;
+//
+//import lombok.Data;
+//
+//@Data
+//public class SignupRequest {
+//
+//    private String email;
+//    private String password;
+//    private String name;
+//
+//}

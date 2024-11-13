@@ -1,11 +1,9 @@
 package edu.icet.controller;
 
 import edu.icet.dto.Book;
-import edu.icet.entity.BookEntity;
 import edu.icet.repository.BookRepository;
 import edu.icet.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +13,15 @@ import java.util.List;
 @RequestMapping("/book")
 @RequiredArgsConstructor
 @CrossOrigin
+//http://localhost:4200/
+
 public class BookController {
     private final BookService service;
     private final BookRepository repository;
 
-    @GetMapping("/all")
-     public List<BookEntity> getBook(){
-        System.out.println("Inside");
-        return repository.findAll();
+    @GetMapping("/get-book")
+        public List<Book> getBook(){
+            return service.getAll();
     }
 
     @PostMapping("/add-book")

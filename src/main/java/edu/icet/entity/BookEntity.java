@@ -18,9 +18,11 @@ public class BookEntity {
     private Integer bookId;
     private String title;
     private String category;
+    private Integer qty;
     private double price;
     private String author;
     private String description;
+    private String profileImagePath;
 
 //    private int stock;
 //

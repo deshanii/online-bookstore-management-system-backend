@@ -21,6 +21,8 @@ public class BookEntity {
     private Integer qty;
     private double price;
     private String author;
+    @Lob
+    @Column(length = 65535)
     private String description;
     private String profileImagePath;
 

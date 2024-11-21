@@ -1,10 +1,8 @@
 package edu.icet.controller;
 
-import edu.icet.dto.Admin;
 import edu.icet.dto.Login;
 import edu.icet.dto.User;
 import edu.icet.response.LoginResponse;
-import edu.icet.service.AdminService;
 import edu.icet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

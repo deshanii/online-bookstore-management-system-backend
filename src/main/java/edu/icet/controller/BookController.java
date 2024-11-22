@@ -54,7 +54,6 @@ public class BookController {
 
     @GetMapping("/search-by-id/{id}")
     public Book getBookById(@PathVariable Integer id){
-        System.out.println(id);
         return service.searchBookById(id);
     }
 

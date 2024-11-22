@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class Config {
 
-
     @Bean
     public ModelMapper getMapper(){
         return new ModelMapper();

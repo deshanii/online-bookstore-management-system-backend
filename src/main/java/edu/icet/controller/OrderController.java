@@ -12,7 +12,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
+@CrossOrigin
 public class OrderController {
+    @Autowired
 
     final OrderService service;
 
